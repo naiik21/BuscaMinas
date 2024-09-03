@@ -1,9 +1,10 @@
 import setMines from '../logic/setMines'
+import openAdv from '../logic/openAdv'
 import Box from './Box'
+import Advertisement from './Advertisement'
 import { useState, useEffect } from 'react'
 
 function Board({ rows, columns }) {
-  const [board, setBoard] = useState([])
   const [boardArray, setBoardArray] = useState([])
 
   useEffect(() => {
@@ -27,13 +28,49 @@ function Board({ rows, columns }) {
     }
     return mAdj
   }
+
+  const handleOpen = (rowIndex, columnIndex) => {
+    const newBoard = [...boardArray]
+    const box = newBoard[rowIndex][columnIndex]
+
+    if (!box.isOpen) {
+      box.isOpen = true
+
+      if (box.hasMine) {
+        for (let n = 0; n < rows; n++) {
+          for (let i = 0; i < columns; i++) {
+            if (newBoard[n][i].hasMine) {
+              newBoard[n][i].isOpen = true
+            }
+          }
+        }
+        openAdv()
+      }
+
+      if (box.nAdjacent === 0) {
+        for (let n = -1; n <= 1; n++) {
+          for (let i = -1; i <= 1; i++) {
+            const newRow = rowIndex + n
+            const newColumn = columnIndex + i
+            try {
+              handleOpen(newRow, newColumn)
+            } catch (e) {
+              //Controla los bordes del tablero
+            }
+          }
+        }
+      }
+
+      setBoardArray(newBoard)
+    }
+  }
+
   //Función que crea el tablero de juego
   const createBoard = () => {
     let newBoardArray = []
-    let newBoard = []
     let boxes = rows * columns
     let mines = (boxes * 17) / 100
-    let flags = mines
+    //let flags = mines
     let orderMines = setMines(boxes, mines)
     let cont = 0
 
@@ -63,33 +100,32 @@ function Board({ rows, columns }) {
         )
       }
     }
-
-    //Tablero JSX
-    for (let n = 0; n < rows; n++) {
-      let row = []
-      for (let i = 0; i < columns; i++) {
-        row.push(
-          <Box
-            key={`${n}-${i}`}
-            hasMine={newBoardArray[n][i].hasMine}
-            isOpen={newBoardArray[n][i].isOpen}
-            addFlag={newBoardArray[n][i].addFlag}
-            nAdjacent={newBoardArray[n][i].nAdjacent}
-          />
-        )
-        cont++
-      }
-      newBoard.push(<tr key={n}>{row}</tr>)
-    }
     setBoardArray(newBoardArray)
-    setBoard(newBoard)
   }
 
   return (
     <>
       <table>
-        <tbody>{board}</tbody>
+        <tbody>
+          {boardArray.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {row.map((box, columnIndex) => (
+                <Box
+                  key={`${rowIndex}-${columnIndex}`}
+                  rowIndex={rowIndex}
+                  columnIndex={columnIndex}
+                  hasMine={box.hasMine}
+                  isOpen={box.isOpen}
+                  addFlag={box.addFlag}
+                  nAdjacent={box.nAdjacent}
+                  onClick={() => handleOpen(rowIndex, columnIndex)}
+                />
+              ))}
+            </tr>
+          ))}
+        </tbody>
       </table>
+      <Advertisement></Advertisement>
     </>
   )
 }

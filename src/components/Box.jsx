@@ -1,12 +1,7 @@
 import { useState } from 'react'
 
-function Box({ isOpen, addFlag, hasMine, nAdjacent }) {
-  const [open, setOpen] = useState(isOpen)
+function Box({ isOpen, addFlag, hasMine, nAdjacent, onClick }) {
   const [flag, setFlag] = useState(addFlag)
-
-  const handleOpen = () => {
-    setOpen(true)
-  }
 
   const handleFlag = () => {
     setFlag(!flag)
@@ -14,22 +9,23 @@ function Box({ isOpen, addFlag, hasMine, nAdjacent }) {
 
   return (
     <>
-      {open == false ? (
+      {isOpen == false ? (
         flag == false ? (
-          <td onContextMenu={handleFlag} onClick={handleOpen}>
-            <img src="/public/fons20px.jpg" alt="" />
+          <td onContextMenu={handleFlag} onClick={onClick}>
+            <img src='/public/fons20px.jpg' alt='' />
           </td>
         ) : (
-          <td onContextMenu={handleFlag} onClick={handleOpen}>
-            <img src="/public/badera20px.jpg" alt="" />
+          <td onContextMenu={handleFlag} onClick={onClick}>
+            <img src='/public/badera20px.jpg' alt='' />
           </td>
         )
       ) : hasMine ? (
         <td>
-          <img src="/public/mina20px.jpg" alt="" />
+          <img src='/public/mina20px.jpg' alt='' />
         </td>
       ) : (
         <td>{nAdjacent}</td>
+        //<td>{key[0]}</td>
       )}
     </>
   )
