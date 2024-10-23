@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react'
 
 function Board({ rows, columns }) {
   const [boardArray, setBoardArray] = useState([])
+  const [flagCount, setFlagCount] = useState(0) // Estado para contar las banderas
+  //const [boxFree, setBoxFree] = useState(rows * columns)
 
   useEffect(() => {
     createBoard()
@@ -65,12 +67,17 @@ function Board({ rows, columns }) {
     }
   }
 
+  // Función que actualiza el contador de banderas
+  const handleFlagChange = (flagAdded) => {
+    setFlagCount(flagCount + (flagAdded ? -1 : 1))
+  }
+
   //Función que crea el tablero de juego
   const createBoard = () => {
     let newBoardArray = []
     let boxes = rows * columns
     let mines = (boxes * 17) / 100
-    //let flags = mines
+    setFlagCount(mines)
     let orderMines = setMines(boxes, mines)
     let cont = 0
 
@@ -105,6 +112,8 @@ function Board({ rows, columns }) {
 
   return (
     <>
+      <p>Banderas colocadas: {flagCount}</p>
+      {/* Mostrar el contador de banderas */}
       <table>
         <tbody>
           {boardArray.map((row, rowIndex) => (
@@ -119,6 +128,7 @@ function Board({ rows, columns }) {
                   addFlag={box.addFlag}
                   nAdjacent={box.nAdjacent}
                   onClick={() => handleOpen(rowIndex, columnIndex)}
+                  onFlagChange={handleFlagChange} // Pasar la función para actualizar banderas
                 />
               ))}
             </tr>

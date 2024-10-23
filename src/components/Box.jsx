@@ -1,10 +1,12 @@
 import { useState } from 'react'
 
-function Box({ isOpen, addFlag, hasMine, nAdjacent, onClick }) {
+function Box({ isOpen, addFlag, hasMine, nAdjacent, onClick, onFlagChange }) {
   const [flag, setFlag] = useState(addFlag)
 
-  const handleFlag = () => {
+  const handleFlag = (e) => {
+    e.preventDefault() // Prevenir el menú contextual
     setFlag(!flag)
+    onFlagChange(!flag) // Llamar a la función para actualizar el contador
   }
 
   return (
@@ -25,7 +27,6 @@ function Box({ isOpen, addFlag, hasMine, nAdjacent, onClick }) {
         </td>
       ) : (
         <td>{nAdjacent}</td>
-        //<td>{key[0]}</td>
       )}
     </>
   )

@@ -3,7 +3,9 @@ function Advertisement() {
   return (
     <dialog>
       <p>Contenido</p>
-      <form method='dialog'>Cierra</form>
+      <form method='dialog'>
+        <button>Cierra</button>
+      </form>
     </dialog>
   )
 }
