@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import './box.css'
 
 function Box({ isOpen, addFlag, hasMine, nAdjacent, onClick, onFlagChange }) {
   const [flag, setFlag] = useState(addFlag)
