@@ -7,6 +7,8 @@ import { useState, useEffect } from 'react'
 function Board({ rows, columns }) {
   const [boardArray, setBoardArray] = useState([])
   const [flagCount, setFlagCount] = useState(0) // Estado para contar las banderas
+  const [openBox, setOpenBox] = useState(0) // Estado para contar las banderas
+
   //const [boxFree, setBoxFree] = useState(rows * columns)
 
   useEffect(() => {
@@ -47,6 +49,10 @@ function Board({ rows, columns }) {
           }
         }
         openAdv()
+      } else {
+        // Usa la forma con callback para actualizar correctamente el estado
+        setOpenBox((prevOpenBox) => prevOpenBox - 1)
+        console.log(openBox)
       }
 
       if (box.nAdjacent === 0) {
@@ -77,6 +83,7 @@ function Board({ rows, columns }) {
     let newBoardArray = []
     let boxes = rows * columns
     let mines = (boxes * 17) / 100
+    setOpenBox(boxes - mines)
     setFlagCount(mines)
     let orderMines = setMines(boxes, mines)
     let cont = 0
