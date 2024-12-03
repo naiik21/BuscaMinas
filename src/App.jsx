@@ -16,12 +16,12 @@ function App() {
     <>
       <header>
         <h1>PescaMinas</h1>
-        <div className="container-logo">
+        <div className='container-logo'>
           <img
-            className="logo"
-            src="../public/bandera.jpg"
-            alt="Banderas"
-            height="50px"
+            className='logo'
+            src='../public/bandera.jpg'
+            alt='Banderas'
+            height='50px'
           />
         </div>
       </header>

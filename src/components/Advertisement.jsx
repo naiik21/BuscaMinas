@@ -1,10 +1,11 @@
 import './advertisement.css'
-function Advertisement() {
+function Advertisement({ onPlayAgain, onBackToMenu }) {
   return (
     <dialog>
       <p>Contenido</p>
       <form method='dialog'>
-        <button>Cierra</button>
+        <button onClick={onPlayAgain}>Jugar de nuevo</button>
+        <button onClick={onBackToMenu}>Volver</button>
       </form>
     </dialog>
   )

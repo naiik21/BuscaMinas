@@ -110,6 +110,14 @@ function Board({ rows, columns }) {
     setBoardArray(newBoardArray)
   }
 
+  const handlePlayAgain = () => {
+    createBoard()
+  }
+
+  const handleBackToMenu = () => {
+    console.log('advertisement') // Vuelve al menú
+  }
+
   return (
     <>
       <p>Banderas colocadas: {flagCount}</p>
@@ -135,7 +143,9 @@ function Board({ rows, columns }) {
           ))}
         </tbody>
       </table>
-      <Advertisement></Advertisement>
+      <Advertisement
+        onPlayAgain={handlePlayAgain}
+        onBackToMenu={handleBackToMenu}></Advertisement>
     </>
   )
 }
